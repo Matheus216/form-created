@@ -136,22 +136,22 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
-                                <label for="cidade">Cidade</label>
+                                <label for="city">Cidade</label>
                                 <div class="form-group">
                                     <div class="icon-input">
                                         <i class="fas fa-city"></i>
                                     </div>
-                                    <input type="text" class="form-control input-icon" id="cidade">
+                                    <input type="text" class="form-control input-icon" id="city">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="estado">Estado</label>
+                                <label for="state">Estado</label>
                                 <div class="form-group">
                                     <div class="icon-input">
                                         <i class="fas fa-flag-usa"></i>
                                     </div>
-                                    <input type="text" class="form-control input-icon" id="estado">
+                                    <input type="text" class="form-control input-icon" id="state">
                                 </div>
                             </div>
                         </div>
@@ -266,7 +266,7 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 text-right">
-                                <button class="btn btn-info" id="created">
+                                <button class="btn btn-info" id="created" onclick="window.company.Events.onClickCreated()">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
                                         style="display: none;" id='created-load'></span>
                                     Cadastrar

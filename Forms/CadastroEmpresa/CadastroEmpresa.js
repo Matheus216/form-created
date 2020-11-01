@@ -2,6 +2,7 @@ window.company = {}
 
 window.company.UI = {
     initializer: () => {
+        $('#status').prop("checked","true")
     },
 
     fillReturnAPI: data => {
@@ -13,7 +14,7 @@ window.company.functions = {
     initializer: () => {
     },
     
-    created: e => {
+    created: () => {
         $(`#created-load`).show();
 
         if (!window.company.functions.isValid()){
@@ -22,7 +23,22 @@ window.company.functions = {
         }
 
         let data = {
-
+            CompanyName: $('#companynName').val(),
+            FantasyName: $('#fantasyName').val(),
+            CNPJ: $('#cnpj').val(),
+            Email: $('#Email').val(),
+            Telephone: $('#phone').val(),
+            Status: $('#status').prop("checked"),
+            Address: {
+                Address: $('#address').val(),
+                City: $('#city').val(),
+                State: $('#state').val()
+            },
+            Category: parseInt($('#select-category').val()),
+            Account: {
+                Agency: $('#agency').val(),
+                Account: $('#account').val()
+            }
         };
 
         $.ajax({
@@ -30,8 +46,7 @@ window.company.functions = {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             url: `${config.url}`,
-            data: data,
-            async:false,
+            data: JSON.stringify(data),
             success: function (response) {
                 $(`#created-load`).hide();
             },
@@ -53,7 +68,6 @@ window.company.Events = {
         $('#cnpj').change(e => window.company.Events.onChangeValidateInput(e));
         $('#agency').change(e => window.company.Events.onChangeValidateInput(e));
         $('#account').change(e => window.company.Events.onChangeValidateInput(e));
-        $('#created').click(e => window.company.Events.onClickCreated(e));
     },
 
     onKeyUpCnpj: e => {
@@ -64,9 +78,8 @@ window.company.Events = {
         window.company.functions.IsValidCNPJ(e);
     },
 
-    onClickCreated: e => {
-        window.company.functions.created(e.target);
-        e.preventDefault();
+    onClickCreated: () => {
+        window.company.functions.created();
     },
 
     onChangeValidateInput: e => {

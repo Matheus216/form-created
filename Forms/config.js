@@ -1,7 +1,7 @@
 //apontamento local
 
 const config = {
-    url: ''
+    url: 'http://validacao.selida.com.br/apiv2/testewlc/'
 }
 
 
