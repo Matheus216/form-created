@@ -1,0 +1,28 @@
+body{
+    background: #0e0e0e12 !important;
+}
+
+.header-fit{
+    background: #08212b !important;
+}
+
+.form-register{
+    background: white;
+    margin-top: 24px;
+    border: 1px solid transparent;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.footer-template{
+    margin-left: 90%;
+}
+
+footer{
+    height: 100%;
+    background: #08212b;
+}
+
+hr{
+    margin-top: 4rem !important;
+}
