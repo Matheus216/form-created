@@ -22,19 +22,22 @@ window.company.functions = {
             return false;
         }
 
+        let cnpj = $('#cnpj').val().replaceAll('.', '').replace('/','').replace('-','');
+        let telephone = $('#phone').val().replace('(', '').replace(')', '').replace('-', '');
+
         let data = {
             CompanyName: $('#companynName').val(),
             FantasyName: $('#fantasyName').val(),
-            CNPJ: $('#cnpj').val(),
+            CNPJ: cnpj,
             Email: $('#Email').val(),
-            Telephone: $('#phone').val(),
+            Telephone: telephone,
             Status: $('#status').prop("checked"),
             Address: {
                 Address: $('#address').val(),
                 City: $('#city').val(),
                 State: $('#state').val()
             },
-            Category: parseInt($('#select-category').val()),
+            CategoryId: parseInt($('#select-category').val()),
             Account: {
                 Agency: $('#agency').val(),
                 Account: $('#account').val()
@@ -45,7 +48,7 @@ window.company.functions = {
             type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            url: `${config.url}`,
+            url: `${config.url}api/Establishment`,
             data: JSON.stringify(data),
             success: function (response) {
                 $(`#created-load`).hide();
@@ -57,7 +60,7 @@ window.company.functions = {
     },
 
     isValid: () => {
-        //Validar os campos do formulário não esquecer
+        return true;
     }
 }
 
@@ -68,6 +71,7 @@ window.company.Events = {
         $('#cnpj').change(e => window.company.Events.onChangeValidateInput(e));
         $('#agency').change(e => window.company.Events.onChangeValidateInput(e));
         $('#account').change(e => window.company.Events.onChangeValidateInput(e));
+        $('#created').click(e => window.company.Events.onClickCreated(e));
     },
 
     onKeyUpCnpj: e => {
@@ -78,15 +82,17 @@ window.company.Events = {
         window.company.functions.IsValidCNPJ(e);
     },
 
-    onClickCreated: () => {
+    onClickCreated: e => {
+
         window.company.functions.created();
+        $(`#created-load`).hide();
+        e.preventDefault();
     },
 
     onChangeValidateInput: e => {
         window.UI.isInputValid(e.target);
     }
 }
-
 
 window.company.UI.initializer();
 window.company.Events.initializer();
