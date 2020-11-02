@@ -11,25 +11,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <link rel="stylesheet" href="../fontawesome-free-5.15.1-web/css/fontawesome.min.css">
     <link rel="stylesheet" href="../fontawesome-free-5.15.1-web/css/brands.min.css">
     <link rel="stylesheet" href="../fontawesome-free-5.15.1-web/css/solid.min.css">
-    
-    
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js">
     </script>
 
     <link rel="shortcut icon" href="../img/logo.svg" />
@@ -97,7 +94,7 @@
                                 <i class="fas fa-building"></i>
                             </div>
                             <input type="text" class="cnpj-mask form-control input-icon" id="cnpj"
-                                placeholder="xx.xxx.xxx/xxxx-xx">
+                                placeholder="xx.xxx.xxx/xxxx-xx" maxlength="18">
                             <div class="text-right">
                                 <small class="form-text text-muted" id="cnpj-icon" style="display:none">
                                     <i class="fas fa-check-circle"></i>
@@ -189,7 +186,7 @@
                                         <i class="fas fa-money-check-alt"></i>
                                     </div>
                                     <input type="text" id="account" class="account-mask form-control input-icon"
-                                        placeholder="xx.xxx-x">
+                                        maxlength="8" placeholder="xx.xxx-x">
                                     <div class="text-right">
                                         <small class="form-text text-muted" id="account-icon" style="display:none">
                                             <i class="fas fa-check-circle"></i>
@@ -227,10 +224,9 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
+                        <div class="row">
                             <div class="col-md-12 text-right" style="margin-top: 20px">
-                                <button class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#category-modal">Edit category</button>
+                                <button class="btn btn-info btn-sm" id="edit-modal-category" >Edit category</button>
                             </div>
                         </div>
                     </div>
@@ -301,7 +297,7 @@
                     <form>
                         <div class="form-row">
                             <div class="col-md-6">
-                                <label for="recipient-name">Categorias</label>
+                                <label for="select-modal-category">Categorias</label>
                                 <select name="" class="form-control" id="select-modal-category">
                                     <option value="0">...</option>
                                 </select>
@@ -325,6 +321,25 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="modal-alert-header">
+                    <h5 class="modal-title" id="modal-alert-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-alert-content">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                  </div>
             </div>
         </div>
     </div>

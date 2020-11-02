@@ -26,3 +26,13 @@ footer{
 hr{
     margin-top: 4rem !important;
 }
+
+.sucess-modal-alert {
+    background: green;
+    color: white;
+}
+
+.error-modal-alert {
+    background: #670000;
+    color: white;    
+}

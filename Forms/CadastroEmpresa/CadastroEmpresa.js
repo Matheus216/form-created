@@ -49,18 +49,25 @@ window.company.functions = {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             url: `${config.url}api/Establishment`,
+            crossDomain:true,
             data: JSON.stringify(data),
             success: function (response) {
-                $(`#created-load`).hide();
+                window.functions.messageReturn('modal-alert', 'Empresa cadastrada com sucesso !');
             },
             error: function (err) {
-                $(`#created-load`).hide();
+                window.functions.messageReturn('modal-alert', 'Erro ao cadastrar empresa !', false);
             }
         });
     },
 
     isValid: () => {
         return true;
+    },
+
+    openModalCategory: (e) => {
+        $('#category-modal').modal('show');
+
+        e.preventDefault();
     }
 }
 
@@ -72,6 +79,7 @@ window.company.Events = {
         $('#agency').change(e => window.company.Events.onChangeValidateInput(e));
         $('#account').change(e => window.company.Events.onChangeValidateInput(e));
         $('#created').click(e => window.company.Events.onClickCreated(e));
+        $('#edit-modal-category').click(e => window.company.functions.openModalCategory(e));
     },
 
     onKeyUpCnpj: e => {
@@ -83,10 +91,13 @@ window.company.Events = {
     },
 
     onClickCreated: e => {
-
-        window.company.functions.created();
-        $(`#created-load`).hide();
-        e.preventDefault();
+        try {
+            window.company.functions.created();
+            e.preventDefault();
+            $(`#created-load`).hide();
+        } catch (e) {
+            $(`#created-load`).hide();
+        }
     },
 
     onChangeValidateInput: e => {
@@ -96,3 +107,4 @@ window.company.Events = {
 
 window.company.UI.initializer();
 window.company.Events.initializer();
+window.company.functions.initializer();

@@ -43,6 +43,22 @@ window.functions = {
         $('.account-mask').mask('00.000-0', { reverse: true });
         $('.phone-mask').mask('(00)0000-0000', { reverse: true });
     },
+
+    messageReturn: (id, message, success = true)=> {
+        if (success) {
+            $(`#${id}-header`).removeClass('error-modal-alert')
+            $(`#${id}-header`).addClass('sucess-modal-alert')
+            $(`#${id}-header`).text('Sucesso')
+            $(`#${id}-content`).text(message)
+            $(`#${id}`).modal('show')
+        }else {
+            $(`#${id}-header`).removeClass('sucess-modal-alert')
+            $(`#${id}-header`).addClass('error-modal-alert')
+            $(`#${id}-header`).text('Erro')
+            $(`#${id}-content`).text(message)
+            $(`#${id}`).modal('show')
+        }
+    }
 }
 
 window.Events = {
