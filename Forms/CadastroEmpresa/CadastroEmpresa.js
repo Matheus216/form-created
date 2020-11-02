@@ -1,6 +1,7 @@
 window.company = {}
 
 var isUpdate = false;
+var establishmentId = 0;
 
 window.company.UI = {
     initializer: () => {
@@ -25,6 +26,7 @@ window.company.UI = {
                 url: `${config.url}api/Establishment?cnpj=${cnpj}`,
                 crossDomain:true,
                 success: function (response) {
+                    establishmentId = response.establishmentModel.establishmentId;
                     $('#companynName').val(response.establishmentModel.companyName);
                     $('#fantasyName').val(response.establishmentModel.fantasyName);
                     $('#cnpj').val(cnpj);
@@ -53,11 +55,12 @@ window.company.functions = {
     initializer: () => {
     },
 
-    getObject: () => {
+    getObject: (establishmentId) => {
         let cnpj = $('#cnpj').val().replaceAll('.', '').replace('/','').replace('-','');
         let telephone = $('#phone').val().replace('(', '').replace(')', '').replace('-', '');
 
         let data = {
+            establishmentId: establishmentId,
             CompanyName: $('#companynName').val(),
             FantasyName: $('#fantasyName').val(),
             CNPJ: cnpj,
@@ -91,7 +94,7 @@ window.company.functions = {
             dataType: "json",
             url: `${config.url}api/Establishment`,
             crossDomain:true,
-            data: JSON.stringify(window.company.functions.getObject()),
+            data: JSON.stringify(window.company.functions.getObject(0)),
             success: function (response) {
                 window.functions.messageReturn('modal-alert', 'Empresa cadastrada com sucesso !');
             },
@@ -113,7 +116,7 @@ window.company.functions = {
             dataType: "json",
             url: `${config.url}api/Establishment`,
             crossDomain:true,
-            data: JSON.stringify(window.company.functions.getObject()),
+            data: JSON.stringify(window.company.functions.getObject(establishmentId)),
             success: function (response) {
                 window.functions.messageReturn('modal-alert', 'Empresa salva com sucesso!');
             },
