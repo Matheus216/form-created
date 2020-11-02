@@ -1,27 +1,59 @@
 window.company = {}
 
+var isUpdate = false;
+
 window.company.UI = {
     initializer: () => {
-        $('#status').prop("checked","true")
+        var varUrl = location.search.slice(1);
+
+        if (varUrl.split('=')[0].includes('cnpj')){
+            isUpdate = true;
+            window.company.UI.loadData(varUrl.split('=')[1]);
+        }
     },
 
     fillReturnAPI: data => {
         $('address').val(data.address);
+    },
+
+    loadData: cnpj => {
+        if (cnpj){
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                url: `${config.url}api/Establishment?cnpj=${cnpj}`,
+                crossDomain:true,
+                success: function (response) {
+                    $('#companynName').val(response.establishmentModel.companyName);
+                    $('#fantasyName').val(response.establishmentModel.fantasyName);
+                    $('#cnpj').val(cnpj);
+                    $('#Email').val(response.establishmentModel.email),
+                    $('#phone').val(response.establishmentModel.telephone);
+                    $('#status').prop("checked",response.establishmentModel.status.toString());
+                    $('#address').val(response.establishmentModel.address.address);
+                    $('#city').val(response.establishmentModel.address.city);
+                    $('#state').val(response.establishmentModel.address.state);
+                    $('#select-category').val(response.establishmentModel.categoryId);
+                    $('#agency').val(response.establishmentModel.account.agency);
+                    $('#account').val(response.establishmentModel.account.account);
+                },
+                error: function (err) {
+                    window.functions.messageReturn('modal-alert', 'Erro ao carregar empresa!', false);
+                }
+            });
+        }
+        else{
+            $('#status').prop("checked","true");
+        }
     }
 }
 
 window.company.functions = {
     initializer: () => {
     },
-    
-    created: () => {
-        $(`#created-load`).show();
 
-        if (!window.company.functions.isValid()){
-            $(`#created-load`).hide();
-            return false;
-        }
-
+    getObject: () => {
         let cnpj = $('#cnpj').val().replaceAll('.', '').replace('/','').replace('-','');
         let telephone = $('#phone').val().replace('(', '').replace(')', '').replace('-', '');
 
@@ -44,18 +76,49 @@ window.company.functions = {
             }
         };
 
+        return data;
+    },
+    
+    created: () => {      
+        if (!window.company.functions.isValid()){
+            $(`#created-load`).hide();
+            return false;
+        }     
+
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             url: `${config.url}api/Establishment`,
             crossDomain:true,
-            data: JSON.stringify(data),
+            data: JSON.stringify(window.company.functions.getObject()),
             success: function (response) {
                 window.functions.messageReturn('modal-alert', 'Empresa cadastrada com sucesso !');
             },
             error: function (err) {
                 window.functions.messageReturn('modal-alert', 'Erro ao cadastrar empresa !', false);
+            }
+        });
+    },
+
+    update: () => {
+        if (!window.company.functions.isValid()){
+            $(`#created-load`).hide();
+            return false;
+        }     
+
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            url: `${config.url}api/Establishment`,
+            crossDomain:true,
+            data: JSON.stringify(window.company.functions.getObject()),
+            success: function (response) {
+                window.functions.messageReturn('modal-alert', 'Empresa salva com sucesso!');
+            },
+            error: function (err) {
+                window.functions.messageReturn('modal-alert', 'Erro ao salvar empresa!', false);
             }
         });
     },
@@ -92,7 +155,15 @@ window.company.Events = {
 
     onClickCreated: e => {
         try {
-            window.company.functions.created();
+            $(`#created-load`).show();
+
+            if (!isUpdate){
+                window.company.functions.created();
+            }
+            else{
+                window.company.functions.update();
+            }
+
             e.preventDefault();
             $(`#created-load`).hide();
         } catch (e) {

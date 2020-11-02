@@ -80,6 +80,31 @@ window.companyGet.functions = {
         });
     },
 
+    deleteEstablishmnet: establishmentId => {
+        window.companyGet.functions.clearInputs();
+
+        $.ajax({
+            type: "DELETE",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            url: `${config.url}api/Establishment?establishmentId=${establishmentId}`,
+            crossDomain: true,
+            success: function (response) {
+                window.functions.messageReturn('modal-alert', 'Deletado com sucesso !');
+                $('#table-company-body').html('');
+            },
+            error: function (err) {
+                window.functions.messageReturn('modal-alert', 'Erro ao buscar empresa !', false);
+            }
+        });
+    },
+
+    clearInputs: () => {
+        $('#companynName').val('');
+        $('#select-category-get').val(0);
+        $('#cnpj').val('');
+    },
+
     fillTable: (establishmentModel, cont) => {
         var line = `
         <tr>
@@ -88,7 +113,7 @@ window.companyGet.functions = {
             <td>${establishmentModel.cnpj}</td>
             <td>${establishmentModel.dateOfRegistration}</td>
             <td>
-                <button class="btn btn-outline-primary btn-sm" onClick="window.companyGet.Events.onClickEdit(${establishmentModel.establishmentId})"><i class="fas fa-edit"></i></button>    
+                <button class="btn btn-outline-primary btn-sm" onClick="window.companyGet.Events.onClickEdit(${establishmentModel.cnpj})"><i class="fas fa-edit"></i></button>    
                 <button class="btn btn-outline-danger btn-sm" onClick="window.companyGet.Events.onClickDelete(${establishmentModel.establishmentId})"><i class="fas fa-trash-alt"></i></button>    
             </td>
         </tr>
@@ -115,8 +140,15 @@ window.companyGet.Events = {
 
     onChangeCompanyCnpj: () => {
         window.companyGet.functions.getCompanyCnpj();
-    }
+    },
 
+    onClickDelete: establishmentId => {
+        window.companyGet.functions.deleteEstablishmnet(establishmentId);
+    },
+
+    onClickEdit: cnpj => {
+        window.location.href = `../CadastroEmpresa/CadastroEmpresa.html?cnpj=${cnpj}`;
+    }
 }
 
 window.companyGet.UI.initializer();
